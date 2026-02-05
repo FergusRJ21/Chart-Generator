@@ -26,10 +26,13 @@ let chartData = {
 // 1. Tenta carregar dados salvos ANTES de criar o gráfico
 loadData();
 
-function createChart(type, height = 400){
+function createChart(type){
     const canvasContainer = document.getElementById('canvas-container');
+    
+    // Removemos a linha que definia height fixo (canvasContainer.style.height = ...)
+    // Deixamos o CSS (.chart-container) controlar a altura.
+    
     canvasContainer.innerHTML = `<canvas id="myChart"></canvas>`;
-    canvasContainer.style.height = `${height}px`;
     
     const ctx = document.getElementById('myChart').getContext('2d');
     
@@ -37,7 +40,8 @@ function createChart(type, height = 400){
         type: type,
         data: chartData,
         options: {
-            maintainAspectRatio: false,
+            responsive: true, // Garante que o Chart.js redimensiona
+            maintainAspectRatio: false, // Permite esticar para encher o div pai
             scales: {
                 y: { beginAtZero: true }
             },

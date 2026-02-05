@@ -1,112 +1,137 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
-*{
+/* Reset Universal - Garante que o padding não aumenta a largura total dos elementos */
+* {
     margin: 0;
     padding: 0;
     outline: none;
     font-family: 'Poppins', sans-serif;
+    box-sizing: border-box; /* Essencial para responsividade */
 }
 
-body{
+body {
     background-color: #f4f4f4;
     color: #333;
     display: flex;
+    flex-direction: column; /* Organiza em coluna: Conteúdo em cima, rodapé em baixo */
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    min-height: 100vh; /* Ocupa pelo menos a altura toda do ecrã, mas permite scroll se necessário */
+    padding: 20px; /* Espaço nas bordas em ecrãs pequenos */
 }
 
-.container{
+.container {
     background-color: #fff;
     padding: 30px;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    width: 80%; /* Ajuste para não ficar muito pequeno */
-    max-width: 800px;
+    width: 100%; 
+    max-width: 900px; /* Limite máximo para monitores grandes */
+    margin-bottom: 40px; /* Espaço para não colar no rodapé */
 }
 
-/* Garante que o gráfico tem espaço */
-.canvas-container {
+/* Área do Gráfico */
+.chart-container {
     position: relative;
     width: 100%;
-}
-
-.controls{
-    margin-top: 30px;
-    text-align: center;
-}
-
-.select,
-.input{
-    padding: 8px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.btn{
-    padding: 8px 15px;
-    border: none;
-    background-color: #303f9f;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 5px; /* Espaço extra se quebrar linha */
-}
-
-.btn:hover{
-    background-color: #0056b3;
+    /* A altura será controlada aqui, não no JS, para ser responsiva */
+    height: 50vh; 
+    max-height: 500px;
+    min-height: 300px;
 }
 
 #canvas-container {
     width: 100%;
     height: 100%;
+}
+
+/* Área de Controlos */
+.controls {
+    margin-top: 30px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap; /* PERMITE QUEBRA DE LINHA: O segredo da responsividade */
+    justify-content: center; /* Centra os itens */
+    gap: 10px; /* Espaço entre os elementos */
 }
 
-
-/* Estilo específico para o botão de limpar */
-.btn-clear {
-    background-color: #dc3545; /* Vermelho */
-    margin-left: 5px;
+.select,
+.input,
+.btn {
+    padding: 10px 15px; /* Áreas de toque maiores para telemóveis */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
-.btn-clear:hover {
-    background-color: #c82333; /* Vermelho mais escuro ao passar o rato */
+/* Inputs e Selects */
+.select,
+.input {
+    flex-grow: 1; /* Ocupam o espaço disponível */
+    min-width: 150px; /* Tamanho mínimo antes de quebrar linha */
 }
 
-
-/* Estilo para o botão de Download */
-.btn-download {
-    background-color: #28a745; /* Verde */
-    margin-left: 5px;
+/* Botões */
+.btn {
+    border: none;
+    background-color: #303f9f;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    flex-grow: 1; /* Botões também crescem para encher espaços vazios */
+    white-space: nowrap; /* Impede que o texto do botão quebre */
 }
 
-.btn-download:hover {
-    background-color: #218838; /* Verde escuro */
+.btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Efeito visual ligeiro */
 }
 
-/* Estilo do Rodapé */
+/* Cores específicas dos botões */
+.btn-clear { background-color: #dc3545; }
+.btn-clear:hover { background-color: #c82333; }
+
+.btn-download { background-color: #28a745; }
+.btn-download:hover { background-color: #218838; }
+
+/* Rodapé */
 footer {
-    position: absolute; /* Fixa a posição em relação ao corpo da página */
-    bottom: 20px;       /* 20px de distância do fundo */
+    margin-top: auto; /* Empurra o rodapé para o fundo do container flexível */
     text-align: center;
     font-size: 0.9rem;
     color: #666;
-    width: 100%;        /* Garante que fica centrado horizontalmente */
+    padding: 20px 0;
+    width: 100%;
 }
 
 footer a {
-    text-decoration: none; /* Remove o sublinhado padrão */
-    color: #303f9f;        /* Usa a mesma cor azul dos botões */
-    font-weight: 600;      /* Deixa o texto um pouco mais grosso */
+    text-decoration: none;
+    color: #303f9f;
+    font-weight: 600;
     transition: color 0.3s ease;
 }
 
 footer a:hover {
-    color: #0056b3;        /* Cor ao passar o rato */
-    text-decoration: underline; /* Adiciona sublinhado ao passar o rato */
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* --- MEDIA QUERIES (Regras para Telemóveis) --- */
+@media (max-width: 600px) {
+    .container {
+        padding: 15px; /* Menos padding interno no telemóvel */
+        width: 100%;
+    }
+
+    .chart-container {
+        height: 300px; /* Gráfico mais baixo em ecrãs pequenos */
+    }
+
+    .controls {
+        flex-direction: column; /* Empilha tudo verticalmente */
+    }
+
+    .select, .input, .btn {
+        width: 100%; /* Força largura total no telemóvel */
+        margin-right: 0;
+    }
 }
